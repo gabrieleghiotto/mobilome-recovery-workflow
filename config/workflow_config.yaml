@@ -1,0 +1,101 @@
+# Workflow Configuration
+# Edit these parameters to control the analysis pipeline
+
+# ============================================================================
+# TOOL PATHS
+# ============================================================================
+# Set these to the actual paths on your system, or leave empty to use
+# conda environment versions
+genomad_db: "/path/to/genomad-db-v1.9"
+checkv_db: "/path/to/checkv-db-v1.5"
+
+# ============================================================================
+# INPUT/OUTPUT PATHS
+# ============================================================================
+input_dir: "data/metagenomes"      # Directory with metagenome FASTA files
+output_base: "data"                 # Base output directory
+
+# ============================================================================
+# geNomad PARAMETERS
+# ============================================================================
+genomad:
+  enable_score_calibration: true
+  conservative: true
+  lenient_taxonomy: true
+  full_ictv_lineage: true
+  sensitivity: 7.0
+  num_threads: 16
+
+# ============================================================================
+# FILTERING PARAMETERS
+# ============================================================================
+filtering:
+  # Minimum genome lengths
+  virus_min_length: 1000      # bp
+  plasmid_min_length: 2000    # bp
+
+  # CheckV filtering (optional)
+  checkv_enabled: true
+  checkv_quality_filter: null # Options: null (no filter), "High", "Medium"
+
+# ============================================================================
+# CLUSTERING PARAMETERS (vclust)
+# ============================================================================
+clustering:
+  # vOTU parameters (viruses)
+  votu:
+    min_ident_prefilter: 0.95   # Prefilter k-mer identity
+    ani_threshold: 0.95          # ANI clustering threshold
+    qcov_threshold: 0.85         # Query coverage threshold
+    leiden_resolution: 1.0       # Leiden resolution parameter
+    metric: "ani"                # Use "ani" for viral sequences
+
+  # PTU parameters (plasmids)
+  ptu:
+    min_kmers: 20                # Minimum k-mers for prefilter
+    min_ident_prefilter: 0.5     # Prefilter identity (looser for plasmids)
+    ani_threshold_out: 0.70      # Output ANI threshold
+    qcov_threshold_out: 0.50     # Output qcov threshold
+    gani_threshold: 0.35         # Global ANI threshold
+    leiden_resolution: 0.9       # Leiden resolution parameter
+    metric: "gani"               # Use "gani" for plasmid sequences
+
+# ============================================================================
+# ANI VALIDATION PARAMETERS
+# ============================================================================
+ani_validation:
+  evalue_threshold: 1e-5
+  num_threads: 16
+  min_alignment_length: 0
+
+# ============================================================================
+# REFINEMENT PARAMETERS
+# ============================================================================
+refinement:
+  # vOTU refinement thresholds
+  votu_pid_threshold: 95.0      # Percent identity for fragment detection
+  votu_qcov_threshold: 85.0     # Query coverage
+  votu_tcov_threshold: 70.0     # Target coverage (max)
+
+  # PTU refinement thresholds
+  ptu_gani_threshold: 35.0      # Global ANI for fragment detection
+  ptu_qcov_threshold: 50.0      # Query coverage
+  ptu_tcov_threshold: 70.0      # Target coverage (max)
+
+  circular_trumps_linear: true  # Promote circular representatives
+
+# ============================================================================
+# EXECUTION OPTIONS
+# ============================================================================
+execution:
+  dry_run: false                # Print commands without executing
+  num_threads: 16
+  keep_intermediate: false      # Keep intermediate files (vclust, BLAST)
+  verbose: true                 # Verbose output
+
+# ============================================================================
+# LOGGING
+# ============================================================================
+logging:
+  level: "INFO"                 # DEBUG, INFO, WARNING, ERROR
+  file: "logs/workflow.log"
