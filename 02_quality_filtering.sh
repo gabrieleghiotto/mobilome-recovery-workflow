@@ -42,14 +42,42 @@ else
     n_after=$(grep -c "^>" "$OUTPUT_DIR/viruses/viruses_1kb.fna" || echo 0)
     echo "  Length filtered: $n_before → $n_after sequences (≥1 kb)"
 
-    # Run CheckV if database exists
+    # Run CheckV if database exists (modular approach)
     if [ -d "$CHECKV_DB" ]; then
-        echo "  Running CheckV..."
-        checkv end_to_end \
+        echo "  Running CheckV (modular steps)..."
+        CHECKV_OUT="$OUTPUT_DIR/viruses/checkv_out"
+        mkdir -p "$CHECKV_OUT"
+
+        # Step 1: Contamination screening
+        echo "    [1/4] Contamination screening..."
+        checkv contamination \
             "$OUTPUT_DIR/viruses/viruses_1kb.fna" \
-            "$OUTPUT_DIR/viruses/checkv_out" \
+            "$CHECKV_OUT" \
             -t $THREADS \
-            -d "$CHECKV_DB"
+            -d "$CHECKV_DB" 2>&1 | grep -v "^$" || true
+
+        # Step 2: Completeness assessment
+        echo "    [2/4] Completeness assessment..."
+        checkv completeness \
+            "$OUTPUT_DIR/viruses/viruses_1kb.fna" \
+            "$CHECKV_OUT" \
+            -t $THREADS \
+            -d "$CHECKV_DB" 2>&1 | grep -v "^$" || true
+
+        # Step 3: Identify complete genomes
+        echo "    [3/4] Identifying complete genomes..."
+        checkv complete_genomes \
+            "$OUTPUT_DIR/viruses/viruses_1kb.fna" \
+            "$CHECKV_OUT" \
+            -d "$CHECKV_DB" 2>&1 | grep -v "^$" || true
+
+        # Step 4: Generate quality summary
+        echo "    [4/4] Generating quality summary..."
+        checkv quality_summary \
+            "$OUTPUT_DIR/viruses/viruses_1kb.fna" \
+            "$CHECKV_OUT" \
+            -d "$CHECKV_DB" 2>&1 | grep -v "^$" || true
+
         echo "  ✓ CheckV complete"
     else
         echo "  WARNING: CheckV database not found at $CHECKV_DB"
