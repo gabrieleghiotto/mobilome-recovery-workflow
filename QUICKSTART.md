@@ -45,8 +45,13 @@ python workflow_orchestrate.py
 # Step 1: Mine viral and plasmid genomes
 bash 01_genomad.sh
 
-# Step 2: Quality filtering
+# Step 2: Quality filtering (MODULAR - recommended)
+# - Uses: checkv contamination, completeness, complete_genomes, quality_summary
+# - Best for: Large datasets, detailed analysis
 bash 02_quality_filtering.sh
+
+# OR Option B2: CheckV end-to-end (simpler, faster)
+# bash 02_quality_filtering_endtoend.sh
 
 # Step 3: Clustering
 bash 03_vclust_clustering.sh
@@ -63,6 +68,19 @@ bash 05_refine_representatives.sh
 ```bash
 python workflow_orchestrate.py --step 3 4 5
 ```
+
+## CheckV Modes
+
+**Default (02_quality_filtering.sh)**: Modular steps
+- `checkv contamination` - Screen for contaminants
+- `checkv completeness` - Assess genome completeness
+- `checkv complete_genomes` - Extract complete genomes
+- `checkv quality_summary` - Generate combined metrics
+
+**Alternative (02_quality_filtering_endtoend.sh)**: Single command
+- `checkv end_to_end` - All-in-one analysis
+
+See [CHECKV_OPTIONS.md](CHECKV_OPTIONS.md) for comparison.
 
 ## Inputs
 
