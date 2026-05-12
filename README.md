@@ -367,5 +367,5 @@ If you use this workflow, please cite: TBD
 
 ---
 
-**Last updated:** May 2024
-**Contact:** Gabriele Ghiotto
+**Last updated:** May 2026
+**Contact:** Gabriele Ghiotto gabrieleghiotto@lbl.gov
