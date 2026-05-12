@@ -102,13 +102,6 @@ Output files used downstream:
 - `genomad_out/<sample>_summary/<sample>_plasmid.fna` — plasmid sequences
 - `genomad_out/<sample>_summary/<sample>_plasmid_summary.tsv` — plasmid metadata (topology, length, scores)
 
-**Sequences retrieved across all metagenomes:**
-
-| Type | Total |
-|------|------:|
-| Viral sequences   | 1,890,480 |
-| Plasmid sequences | 130,857   |
-
 After concatenating across samples, summary files are merged into:
 
 - `all_virus_summaries.tsv`
@@ -137,8 +130,6 @@ checkv end_to_end \
 ```bash
 seqkit seq -m 2000 all_plasmids.fna > plasmids_2kb.fna
 ```
-
-- **Sequences passing filter:** 48,473
 
 ---
 
@@ -255,15 +246,8 @@ python workflow/05_refinement/refine_ptus.py \
     --out      PTUs/ptu_clusters_updated_final.tsv
 ```
 
-**Final counts:**
-
-| Category | Final |
-|----------|------:|
-| Species-level vOTUs | **535,959** |
-| Species-level PTUs  | **15,529**  |
-
 ---
 
 ## Citation
 
-If you use this workflow, please
+If you use this workflow, please cite: TBD
