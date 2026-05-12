@@ -9,7 +9,7 @@ This repository documents the bioinformatic workflow used to recover **uncultiva
 ## Overview
 
 ```
-Metagenomes
+Metagenomes / Metatranscriptome
     │
     ▼
 [geNomad end-to-end]   ── mines viruses AND plasmids in a single run
@@ -51,7 +51,7 @@ Metagenomes
 
 | Tool | Version | Purpose |
 |------|---------|---------|
-| [geNomad](https://github.com/apcamargo/genomad) | v1.11.0 (viruses) / v1.8.0 (plasmids) | Mining viral and plasmid sequences |
+| [geNomad](https://github.com/apcamargo/genomad) | v1.11.0 | Mining viral and plasmid sequences |
 | geNomad database | v1.9 | Reference database |
 | [CheckV](https://bitbucket.org/berkeleylab/checkv) | v1.0.1 | Viral genome quality assessment |
 | CheckV database | v1.5 | Reference database |
@@ -60,6 +60,7 @@ Metagenomes
 | [anicalc.py](https://bitbucket.org/berkeleylab/checkv/src/master/scripts/anicalc.py) | from CheckV repo | ANI estimation |
 | Python | ≥ 3.9 | Refinement scripts |
 | pandas | ≥ 1.5 | Data handling |
+| seqkit | ≥ 2.10 | Multifasta handling |
 
 Install via the provided conda environment:
 
@@ -122,8 +123,6 @@ checkv end_to_end \
     -t 16 \
     -d /path/to/checkv-db-v1.5
 ```
-
-- **Sequences passing filter:** 911,058
 
 ### Plasmids (length ≥ 2 kb)
 
