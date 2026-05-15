@@ -69,14 +69,14 @@ else
         checkv complete_genomes \
             "$OUTPUT_DIR/viruses/viruses_1kb.fna" \
             "$CHECKV_OUT" \
-            -d "$CHECKV_DB" 2>&1 | grep -v "^$" || true
+            2>&1 | grep -v "^$" || true
 
         # Step 4: Generate quality summary
         echo "    [4/4] Generating quality summary..."
         checkv quality_summary \
             "$OUTPUT_DIR/viruses/viruses_1kb.fna" \
             "$CHECKV_OUT" \
-            -d "$CHECKV_DB" 2>&1 | grep -v "^$" || true
+            2>&1 | grep -v "^$" || true
 
         echo "  ✓ CheckV complete"
     else
