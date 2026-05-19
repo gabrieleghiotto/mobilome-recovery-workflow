@@ -42,6 +42,6 @@ dependencies:
   - jupyter
   - jupyterlab
 
-pip:
+- pip:
   - biopython>=1.80
   - tqdm>=4.64.0
